@@ -7,9 +7,9 @@ import {
 } from "../../utils/firebase/firebase.util";
 
 import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
 
 import "./sign-in-form.styles.scss";
-import Button from "../button/button.component";
 
 const defaultFormField = {
   email: "",
@@ -20,19 +20,15 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormField);
   const { email, password } = formFields;
 
-  console.log(formFields);
-
   const resetFormFields = () => {
     setFormFields(defaultFormField);
   };
 
   const signInWithGoogle = async () => {
-    const response = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(response.user);
+    await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
-    console.log("submitted");
     event.preventDefault();
 
     try {
@@ -40,7 +36,7 @@ const SignInForm = () => {
         email,
         password
       );
-      console.log(response);
+
       resetFormFields();
     } catch (err) {
       switch (err.code) {
@@ -86,7 +82,7 @@ const SignInForm = () => {
 
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button type='button' buttonType="google" onClick={signInWithGoogle}>
+          <Button type="button" buttonType="google" onClick={signInWithGoogle}>
             GOOGLE SIGN IN
           </Button>
         </div>

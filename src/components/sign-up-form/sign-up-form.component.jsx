@@ -4,10 +4,11 @@ import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.util";
+
 import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
 
 import "./sign-up-form.styles.scss";
-import Button from "../button/button.component";
 
 const defaultFormField = {
   displayName: "",
@@ -20,7 +21,6 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormField);
   const { displayName, email, password, confirmPassword } = formFields;
 
-  console.log(formFields);
 
   const resetFormFields = () => {
     setFormFields(defaultFormField);
@@ -29,7 +29,6 @@ const SignUpForm = () => {
   const handleSubmit = async (event) => {
     console.log("submitted");
     event.preventDefault();
-    //const { email, password, displayName, confirmPassword } = event.target;
     if (password != confirmPassword) {
       alert("Password do not match");
       return;
@@ -42,7 +41,7 @@ const SignUpForm = () => {
       );
 
       await createUserDocumentFromAuth(response.user, { displayName });
-      console.log(response);
+
       resetFormFields();
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {
@@ -98,7 +97,7 @@ const SignUpForm = () => {
           value={confirmPassword}
           required
         />
-        <Button type='submit'>Sign Up</Button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   );
