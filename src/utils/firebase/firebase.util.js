@@ -18,6 +18,7 @@ import {
   writeBatch,
   query,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -57,7 +58,7 @@ export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
 };
 
 export const getCategoriesAndDocuments = async () => {
-  const collectionRef = collection(db, 'categories');
+  const collectionRef = collection(db, "categories");
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
@@ -115,3 +116,19 @@ export const signOutUser = async () => {
 
 export const onAuthStateChangedListner = (callback) =>
   onAuthStateChanged(auth, callback);
+
+export const getUserDataFromDb = async (currentUser) => {
+  const userDocRef = doc(db, "users", currentUser.uid);
+  const userSnapshot = await getDoc(userDocRef);
+  if (userSnapshot.exists()) {
+    //console.log("Document data:", userSnapshot.data());
+    return userSnapshot.data();
+  } else {
+    console.log("No such document!");
+  }
+};
+
+export const updateUserCartInDatabase = async (currentUser, cartItems) => {
+  const user = doc(db, "users", currentUser.uid);
+  return await updateDoc(user, { cartItems });
+};

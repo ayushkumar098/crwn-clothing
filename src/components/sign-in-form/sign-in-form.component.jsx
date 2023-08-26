@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./sign-in-form.styles.scss";
 
 import {
-  createUserDocumentFromAuth,
   signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword,
+  getUserDataFromDb,
 } from "../../utils/firebase/firebase.util";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
-import "./sign-in-form.styles.scss";
+import { UserContext } from "../../context/user.context";
+import { CartContext } from "../../context/cart.context";
 
 const defaultFormField = {
   email: "",
@@ -19,6 +22,10 @@ const defaultFormField = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormField);
   const { email, password } = formFields;
+
+  const { currentUser } = useContext(UserContext);
+  const { populateCartFromDatabase, cartItems } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const resetFormFields = () => {
     setFormFields(defaultFormField);
@@ -32,12 +39,15 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-
+      await signInAuthUserWithEmailAndPassword(email, password);
       resetFormFields();
+
+      const userData = await getUserDataFromDb(currentUser);
+      //console.log(userData.cartItems);
+      //const cartItemsFromBatabase = userData.cartItems;
+      populateCartFromDatabase(userData.cartItems);
+
+      navigate("/");
     } catch (err) {
       switch (err.code) {
         case "auth/wrong-password":

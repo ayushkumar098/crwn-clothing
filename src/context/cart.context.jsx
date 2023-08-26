@@ -38,14 +38,18 @@ export const CartContext = createContext({
   iscartOpen: false,
   setIsCartOpen: () => {},
   cartItems: [],
+  populateCartFromDatabase: () => {},
   addItemToCart: () => {},
   removeItemFromCart: () => {},
   clearItemFromCart: () => {},
+  clearCartCompletely: () => {},
   cartCount: 0,
   cartTotal: 0,
 });
 
 export const CartProvider = ({ children }) => {
+
+
   const [iscartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
@@ -67,6 +71,11 @@ export const CartProvider = ({ children }) => {
     setCartTotal(newCartTotal);
   }, [cartItems]);
 
+  const populateCartFromDatabase = (cartItemsFromBatabase) => {
+    console.log(cartItemsFromBatabase);
+    setCartItems(cartItemsFromBatabase);
+  }
+
   const addItemToCart = (productToAdd) => {
     setCartItems(addCartItem(cartItems, productToAdd));
   };
@@ -79,14 +88,20 @@ export const CartProvider = ({ children }) => {
     setCartItems(clearCartItem(cartItems, cartItemToClear));
   };
 
+  const clearCartCompletely = () => {
+    setCartItems([]);
+  }
+
   const value = {
     iscartOpen,
     setIsCartOpen,
+    populateCartFromDatabase,
     addItemToCart,
     cartItems,
     cartCount,
     removeItemFromCart,
     clearItemFromCart,
+    clearCartCompletely,
     cartTotal,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

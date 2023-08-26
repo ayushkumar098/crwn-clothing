@@ -1,5 +1,5 @@
 import { Fragment, useContext } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import "./navigation.styles.scss";
 import { ReactComponent as CrwnLogo } from "../../../Assets/crown.svg";
@@ -11,7 +11,14 @@ import { CartContext } from "../../../context/cart.context";
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
-  const { iscartOpen } = useContext(CartContext);
+  const { iscartOpen, clearCartCompletely } = useContext(CartContext);
+  const navigate = useNavigate();
+
+  const signOutHandler = () => {
+    signOutUser();
+    clearCartCompletely();
+    navigate('/');
+  };
 
   return (
     <Fragment>
@@ -24,7 +31,7 @@ const Navigation = () => {
             SHOP
           </Link>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutUser}>
+            <span className="nav-link" onClick={signOutHandler}>
               SIGN OUT
             </span>
           ) : (
@@ -34,7 +41,7 @@ const Navigation = () => {
           )}
           <CartIcon />
         </div>
-        {iscartOpen && (<CartDropdown/>)}
+        {iscartOpen && <CartDropdown />}
       </div>
       <Outlet />
     </Fragment>
