@@ -114,14 +114,14 @@ export const signOutUser = async () => {
   return await signOut(auth);
 };
 
-export const onAuthStateChangedListner = (callback) =>
+export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
 
 export const getUserDataFromDb = async (currentUser) => {
+  console.log(currentUser);
   const userDocRef = doc(db, "users", currentUser.uid);
   const userSnapshot = await getDoc(userDocRef);
   if (userSnapshot.exists()) {
-    //console.log("Document data:", userSnapshot.data());
     return userSnapshot.data();
   } else {
     console.log("No such document!");

@@ -24,7 +24,8 @@ const SignInForm = () => {
   const { email, password } = formFields;
 
   const { currentUser } = useContext(UserContext);
-  const { populateCartFromDatabase, cartItems } = useContext(CartContext);
+
+  const { populateCartFromDatabase } = useContext(CartContext);
   const navigate = useNavigate();
 
   const resetFormFields = () => {
@@ -37,13 +38,13 @@ const SignInForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    
     try {
       await signInAuthUserWithEmailAndPassword(email, password);
       resetFormFields();
 
       const userData = await getUserDataFromDb(currentUser);
-      //console.log(userData.cartItems);
+      console.log(userData);
       //const cartItemsFromBatabase = userData.cartItems;
       populateCartFromDatabase(userData.cartItems);
 

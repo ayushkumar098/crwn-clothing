@@ -12,12 +12,11 @@ import { CartContext } from "../../../context/cart.context";
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
   const { iscartOpen, clearCartCompletely } = useContext(CartContext);
-  const navigate = useNavigate();
+
 
   const signOutHandler = () => {
     signOutUser();
     clearCartCompletely();
-    navigate('/');
   };
 
   return (
