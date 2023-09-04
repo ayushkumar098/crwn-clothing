@@ -36,7 +36,7 @@ const SignInForm = () => {
         email,
         password
       );
-
+        console.log(response);
       resetFormFields();
     } catch (err) {
       switch (err.code) {
