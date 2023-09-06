@@ -5,7 +5,7 @@ import {
   selectCartCount,
   selectIsCartOpen,
 } from "../../store/cart/cart.selector";
-import { setIsCartOpen } from "../../store/cart/cart.action.js";
+import { setIsCartOpen } from "../../store/cart/cart.reducer.js";
 
 import "./cart-icon.styles.scss";
 
@@ -15,9 +15,7 @@ const CartIcon = () => {
   const cartCount = useSelector(selectCartCount);
   const isCartOpen = useSelector(selectIsCartOpen);
 
-  const toggleIsCartOpen = () => {
-    dispatch(setIsCartOpen(!isCartOpen));
-  };
+  const toggleIsCartOpen = () => dispatch(setIsCartOpen(!isCartOpen));
 
   return (
     <div className="cart-icon-container" onClick={toggleIsCartOpen}>

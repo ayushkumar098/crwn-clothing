@@ -13,7 +13,7 @@ import {
   createUserDocumentFromAuth,
 } from "./utils/firebase/firebase.util";
 
-import { setCurrentUser } from "./store/user/user.action";
+import { setCurrentUser } from "./store/user/user.reducer";
 
 const App = () => {
   const dispatch = useDispatch();
